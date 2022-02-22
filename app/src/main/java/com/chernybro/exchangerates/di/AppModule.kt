@@ -1,7 +1,9 @@
 package com.chernybro.exchangerates.di
 
-import android.content.SharedPreferences
-import com.chernybro.exchangerates.data.remote.ExchangeRatesApi
+import com.chernybro.exchangerates.feature_rates.data.remote.ExchangeRatesApi
+import com.chernybro.exchangerates.feature_rates.data.repository.RateRepositoryImpl
+import com.chernybro.exchangerates.feature_rates.domain.repository.RateRepository
+import com.chernybro.exchangerates.feature_rates.domain.use_case.sort_rates.GetRates
 import com.chernybro.exchangerates.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -19,11 +21,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(sharedPreferences: SharedPreferences): OkHttpClient {
+    fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                //val token = sharedPreferences.getString(Constants.API_TOKEN, "")
                 val url = chain.request().url.newBuilder().addQueryParameter("source", "ecb").build()
                 request.url(url)
                 chain.proceed(request.build())
@@ -45,6 +46,20 @@ object AppModule {
             .client(client)
             .build()
             .create(ExchangeRatesApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetWordInfoUseCase(repository: RateRepository): GetRates {
+        return GetRates(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWordInfoRepository(
+        api: ExchangeRatesApi
+    ): RateRepository {
+        return RateRepositoryImpl(api)
     }
 
 }
