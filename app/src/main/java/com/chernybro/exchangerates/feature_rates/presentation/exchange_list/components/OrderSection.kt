@@ -3,9 +3,11 @@ package com.chernybro.exchangerates.feature_rates.presentation.exchange_list.com
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.chernybro.exchangerates.feature_rates.domain.utils.OrderType
 import com.chernybro.exchangerates.feature_rates.domain.utils.RateOrder
+import com.chernybro.exchangerates.R
 
 @Composable
 fun OrderSection(
@@ -20,13 +22,13 @@ fun OrderSection(
             modifier = Modifier.fillMaxWidth()
         ) {
             DefaultRadioButton(
-                text = "Title",
+                text = stringResource(id = R.string.sort_code),
                 selected = rateOrder is RateOrder.Code,
                 onSelect = { onOrderChange(RateOrder.Code(rateOrder.orderType)) }
             )
             Spacer(modifier = Modifier.width(8.dp))
             DefaultRadioButton(
-                text = "Date",
+                text = stringResource(id = R.string.sort_cost),
                 selected = rateOrder is RateOrder.Cost,
                 onSelect = { onOrderChange(RateOrder.Cost(rateOrder.orderType)) }
             )

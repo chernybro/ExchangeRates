@@ -13,7 +13,7 @@ fun String.toSymbol() : Symbol {
     )
 }
 
-fun SymbolsDTO.toSymbolsList() : List<Symbol> {
+fun SymbolsDTO.toSymbols() : List<Symbol> {
     return this.symbols.keys.map { string -> string.toSymbol() }.toList()
 }
 

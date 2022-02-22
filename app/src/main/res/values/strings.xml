@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ExchangeRates</string>
+
+    <string name="app_title">Exchange Rates</string>
+
+    <string name="sort">Sort</string>
+
+    <string name="sort_code">Code</string>
+    <string name="sort_cost">Cost</string>
+    <string name="sort_type_ascending">Ascending</string>
+    <string name="sort_type_descending">Descending</string>
 </resources>

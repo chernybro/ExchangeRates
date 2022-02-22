@@ -4,7 +4,7 @@ import com.chernybro.exchangerates.feature_rates.data.remote.ExchangeRatesApi
 import com.chernybro.exchangerates.feature_rates.data.repository.RateRepositoryImpl
 import com.chernybro.exchangerates.feature_rates.domain.repository.RateRepository
 import com.chernybro.exchangerates.feature_rates.domain.use_case.sort_rates.GetRates
-import com.chernybro.exchangerates.utils.Constants
+import com.chernybro.exchangerates.feature_rates.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
