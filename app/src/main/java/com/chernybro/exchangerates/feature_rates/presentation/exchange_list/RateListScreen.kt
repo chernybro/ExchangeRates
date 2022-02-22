@@ -44,7 +44,7 @@ fun RateListScreen(
                 text = stringResource(id = R.string.app_title),
                 style = MaterialTheme.typography.h5
             )
-            DropDownList(state.symbols)
+            DropDownList(viewModel)
             IconButton(
                 onClick = {
                     viewModel.onEvent(RatesEvent.ToggleOrderSection)
@@ -65,7 +65,7 @@ fun RateListScreen(
             OrderSection(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp),
+                    .padding(vertical = 8.dp),
                 rateOrder = state.rateOrder,
                 onOrderChange = {
                     viewModel.onEvent(RatesEvent.Order(it))

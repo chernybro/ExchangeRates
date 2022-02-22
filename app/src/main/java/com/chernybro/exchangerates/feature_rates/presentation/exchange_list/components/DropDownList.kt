@@ -9,22 +9,26 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.chernybro.exchangerates.feature_rates.domain.models.Symbol
+import com.chernybro.exchangerates.feature_rates.presentation.components.RatesEvent
+import com.chernybro.exchangerates.feature_rates.presentation.exchange_list.RateListViewModel
+import com.chernybro.exchangerates.feature_rates.utils.Constants
 
 
 @Composable
-fun DropDownList(symbols: List<Symbol>) {
+fun DropDownList(viewModel: RateListViewModel) {
+    val state = viewModel.state.value
 
-    // State variables
-    var expanded by remember { mutableStateOf(false)} // TODO: add to ListState
+    val symbols = state.symbols
+    val selectedSymbol = state.selectedSymbol
+    var expanded by remember { mutableStateOf(false)}
 
     Box(contentAlignment = Alignment.Center) {
         Row(
@@ -35,20 +39,29 @@ fun DropDownList(symbols: List<Symbol>) {
                 },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
-        ) { // Anchor view
-            Text(text = countryName,fontSize = 18.sp,modifier = Modifier.padding(end = 8.dp)) // Country name label
-            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
-
-            //
-            DropdownMenu(expanded = expanded, onDismissRequest = {
-                expanded = false
-            }) {
-                countriesList.forEach{ country->
-                    DropdownMenuItem(onClick = {
-                        expanded = false
-                        countryName = country
+        ) {
+            Text(
+                text = selectedSymbol.code,
+                fontSize = 18.sp,
+                modifier = Modifier.padding(end = 4.dp)
+            )
+            Icon(
+                imageVector = Icons.Filled.ArrowDropDown,
+                contentDescription = ""
+            )
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = {
+                    expanded = false
+                }
+            ) {
+                symbols.forEach{ symbol ->
+                    DropdownMenuItem(
+                        onClick = {
+                            expanded = false
+                            viewModel.onEvent(RatesEvent.Select(symbol))
                     }) {
-                        Text(text = country)
+                        Text(text = symbol.code)
                     }
                 }
             }

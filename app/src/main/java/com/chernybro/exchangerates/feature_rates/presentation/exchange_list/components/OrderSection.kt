@@ -33,7 +33,6 @@ fun OrderSection(
                 onSelect = { onOrderChange(RateOrder.Cost(rateOrder.orderType)) }
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {

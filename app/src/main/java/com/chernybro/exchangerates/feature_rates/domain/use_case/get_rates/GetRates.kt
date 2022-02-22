@@ -16,7 +16,7 @@ class GetRates @Inject constructor(
 ) {
 
     operator fun invoke(base: String, rateOrder: RateOrder): Flow<Resource<List<Rate>>> {
-        return repository.getRates("EUR")
+        return repository.getRates(base)
             .map { resource ->
                 when (rateOrder.orderType) {
                     is OrderType.Ascending -> {

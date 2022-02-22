@@ -2,7 +2,10 @@ package com.chernybro.exchangerates.di
 
 import com.chernybro.exchangerates.feature_rates.data.remote.ExchangeRatesApi
 import com.chernybro.exchangerates.feature_rates.data.repository.RateRepositoryImpl
+import com.chernybro.exchangerates.feature_rates.data.repository.SymbolRepositoryImpl
 import com.chernybro.exchangerates.feature_rates.domain.repository.RateRepository
+import com.chernybro.exchangerates.feature_rates.domain.repository.SymbolRepository
+import com.chernybro.exchangerates.feature_rates.domain.use_case.get_symbols.GetSymbols
 import com.chernybro.exchangerates.feature_rates.domain.use_case.sort_rates.GetRates
 import com.chernybro.exchangerates.feature_rates.utils.Constants
 import dagger.Module
@@ -50,16 +53,30 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGetWordInfoUseCase(repository: RateRepository): GetRates {
+    fun provideRateInfoUseCase(repository: RateRepository): GetRates {
         return GetRates(repository)
     }
 
     @Provides
     @Singleton
-    fun provideWordInfoRepository(
+    fun provideRatesRepository(
         api: ExchangeRatesApi
     ): RateRepository {
         return RateRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSymbolsInfoUseCase(repository: SymbolRepository): GetSymbols {
+        return GetSymbols(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSymbolsRepository(
+        api: ExchangeRatesApi
+    ): SymbolRepository {
+        return SymbolRepositoryImpl(api)
     }
 
 }
