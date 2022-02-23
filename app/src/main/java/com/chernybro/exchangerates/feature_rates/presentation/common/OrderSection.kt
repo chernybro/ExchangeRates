@@ -1,4 +1,4 @@
-package com.chernybro.exchangerates.feature_rates.presentation.exchange_list.components
+package com.chernybro.exchangerates.feature_rates.presentation.common
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable

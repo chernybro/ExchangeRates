@@ -1,4 +1,4 @@
-package com.chernybro.exchangerates.feature_rates.presentation.components
+package com.chernybro.exchangerates.feature_rates.presentation.common
 
 import com.chernybro.exchangerates.feature_rates.domain.models.Symbol
 import com.chernybro.exchangerates.feature_rates.domain.utils.RateOrder

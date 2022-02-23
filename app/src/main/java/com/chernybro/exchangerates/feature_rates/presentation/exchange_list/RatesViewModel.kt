@@ -1,6 +1,5 @@
 package com.chernybro.exchangerates.feature_rates.presentation.exchange_list
 
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,8 +8,7 @@ import com.chernybro.exchangerates.feature_rates.domain.use_case.get_symbols.Get
 import com.chernybro.exchangerates.feature_rates.domain.use_case.sort_rates.GetRates
 import com.chernybro.exchangerates.feature_rates.domain.utils.OrderType
 import com.chernybro.exchangerates.feature_rates.domain.utils.RateOrder
-import com.chernybro.exchangerates.feature_rates.presentation.exchange_list.components.RatesState
-import com.chernybro.exchangerates.feature_rates.presentation.components.RatesEvent
+import com.chernybro.exchangerates.feature_rates.presentation.common.RatesEvent
 import com.chernybro.exchangerates.feature_rates.utils.Constants
 import com.chernybro.exchangerates.feature_rates.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,13 +17,13 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class RateListViewModel @Inject constructor(
+class RatesViewModel @Inject constructor(
     private val getRatesUseCase: GetRates,
     private val getSymbolsUseCase: GetSymbols
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(RatesState())
-    val state: State<RatesState> = _state
+    private val _state = mutableStateOf(com.chernybro.exchangerates.feature_rates.presentation.common.State())
+    val state: State<com.chernybro.exchangerates.feature_rates.presentation.common.State> = _state
 
     init {
         getRates(Constants.BASE_RATE, RateOrder.Code(OrderType.Ascending))

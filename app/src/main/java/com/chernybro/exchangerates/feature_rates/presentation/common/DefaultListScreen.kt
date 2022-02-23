@@ -1,4 +1,6 @@
-package com.chernybro.exchangerates.feature_rates.presentation.exchange_list
+package com.chernybro.exchangerates.feature_rates.presentation.common
+
+import com.chernybro.exchangerates.feature_rates.presentation.exchange_list.RatesViewModel
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
@@ -17,16 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.chernybro.exchangerates.R
-import com.chernybro.exchangerates.feature_rates.presentation.components.RatesEvent
-import com.chernybro.exchangerates.feature_rates.presentation.exchange_list.components.DropDownList
-import com.chernybro.exchangerates.feature_rates.presentation.exchange_list.components.OrderSection
-import com.chernybro.exchangerates.feature_rates.presentation.exchange_list.components.RateListItem
 
 
 @Composable
-fun RateListScreen(
+fun DefaultList(
     navController: NavController,
-    viewModel: RateListViewModel = hiltViewModel()
+    viewModel: RatesViewModel = hiltViewModel(),
+    iconItem: ImageVector
 ) {
     val state = viewModel.state.value
 
@@ -75,8 +74,9 @@ fun RateListScreen(
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.rates) { rate ->
-                RateListItem(
+                ListItem(
                     rate = rate,
+                    icon = iconItem
                 )
             }
         }

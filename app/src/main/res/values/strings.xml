@@ -3,10 +3,14 @@
 
     <string name="app_title">Exchange Rates</string>
 
+    <string name="bottom_nav_popular">Popular</string>
+    <string name="bottom_nav_favourites">Favourites</string>
+
     <string name="sort">Sort</string>
 
     <string name="sort_code">Code</string>
     <string name="sort_cost">Cost</string>
     <string name="sort_type_ascending">Ascending</string>
     <string name="sort_type_descending">Descending</string>
+    <string name="add_to_favourites">Add to favourites</string>
 </resources>

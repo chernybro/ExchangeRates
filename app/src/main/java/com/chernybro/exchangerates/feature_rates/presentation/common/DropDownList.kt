@@ -1,4 +1,4 @@
-package com.chernybro.exchangerates.feature_rates.presentation.exchange_list.components
+package com.chernybro.exchangerates.feature_rates.presentation.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,13 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.chernybro.exchangerates.feature_rates.presentation.components.RatesEvent
-import com.chernybro.exchangerates.feature_rates.presentation.exchange_list.RateListViewModel
-import com.chernybro.exchangerates.feature_rates.utils.Constants
+import com.chernybro.exchangerates.feature_rates.presentation.exchange_list.RatesViewModel
 
 
 @Composable
-fun DropDownList(viewModel: RateListViewModel) {
+fun DropDownList(viewModel: RatesViewModel) {
     val state = viewModel.state.value
 
     val symbols = state.symbols

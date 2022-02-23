@@ -1,4 +1,4 @@
-package com.chernybro.exchangerates.feature_rates.presentation.exchange_list.components
+package com.chernybro.exchangerates.feature_rates.presentation.common
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
