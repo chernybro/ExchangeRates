@@ -5,8 +5,8 @@ import com.chernybro.exchangerates.feature_rates.data.repository.RateRepositoryI
 import com.chernybro.exchangerates.feature_rates.data.repository.SymbolRepositoryImpl
 import com.chernybro.exchangerates.feature_rates.domain.repository.RateRepository
 import com.chernybro.exchangerates.feature_rates.domain.repository.SymbolRepository
-import com.chernybro.exchangerates.feature_rates.domain.use_case.get_symbols.GetSymbols
-import com.chernybro.exchangerates.feature_rates.domain.use_case.sort_rates.GetRates
+import com.chernybro.exchangerates.feature_rates.domain.use_case.symbols.GetSymbols
+import com.chernybro.exchangerates.feature_rates.domain.use_case.rates.GetRates
 import com.chernybro.exchangerates.feature_rates.utils.Constants
 import dagger.Module
 import dagger.Provides

@@ -1,5 +1,7 @@
 package com.chernybro.exchangerates.feature_rates.utils
 
+typealias SimpleResource = Resource<Unit>
+
 sealed class Resource<T>(var data: T? = null, val message: String? = null) {
     class Success<T>(data: T) : Resource<T>(data)
     class Error<T>(message: String, data: T? = null) : Resource<T>(data, message)

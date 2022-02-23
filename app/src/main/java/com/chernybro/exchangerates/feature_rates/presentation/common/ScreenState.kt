@@ -6,7 +6,7 @@ import com.chernybro.exchangerates.feature_rates.domain.utils.OrderType
 import com.chernybro.exchangerates.feature_rates.domain.utils.RateOrder
 import com.chernybro.exchangerates.feature_rates.utils.Constants
 
-data class State(
+data class ScreenState(
     val isLoading: Boolean = false,
     val rates: List<Rate> = emptyList(),
     val error: String = "",

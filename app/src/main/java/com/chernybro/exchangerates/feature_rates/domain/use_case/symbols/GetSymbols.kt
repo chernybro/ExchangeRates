@@ -1,4 +1,4 @@
-package com.chernybro.exchangerates.feature_rates.domain.use_case.get_symbols
+package com.chernybro.exchangerates.feature_rates.domain.use_case.symbols
 
 import com.chernybro.exchangerates.feature_rates.domain.models.Symbol
 import com.chernybro.exchangerates.feature_rates.domain.repository.SymbolRepository

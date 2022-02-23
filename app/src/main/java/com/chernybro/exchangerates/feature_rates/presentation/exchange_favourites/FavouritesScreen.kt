@@ -14,5 +14,6 @@ fun FavouritesListScreen(
     navController: NavController,
     viewModel: RatesViewModel = hiltViewModel()
 ) {
-    DefaultList(navController = navController, viewModel = viewModel, iconItem = Icons.Outlined.Star)
+    // TODO: add action on icon click,
+    DefaultList(navController = navController, viewModel = viewModel)
 }

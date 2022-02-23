@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,9 +25,13 @@ import com.chernybro.exchangerates.R
 
 @Composable
 fun ListItem(
-    rate: Rate,
-    icon: ImageVector
+    rate: Rate
 ) {
+    val icon = if (rate.isFavourite){
+        Icons.Outlined.Star
+    } else {
+        Icons.Filled.Star
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,7 +66,8 @@ fun ListItem(
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(
                     painter = rememberVectorPainter(image = icon),
-                    contentDescription = stringResource(id = R.string.add_to_favourites)
+                    contentDescription = stringResource(id = R.string.add_to_favourites),
+                    tint = Color.Green
                 )
             }
         }
@@ -71,5 +77,5 @@ fun ListItem(
 @Preview
 @Composable
 fun test() {
-    ListItem(Rate("EUR", "Rub", 3.42), Icons.Default.Star)
+    ListItem(Rate("EUR", "Rub", 3.42))
 }

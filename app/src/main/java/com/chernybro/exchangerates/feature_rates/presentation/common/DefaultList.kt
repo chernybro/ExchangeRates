@@ -24,8 +24,7 @@ import com.chernybro.exchangerates.R
 @Composable
 fun DefaultList(
     navController: NavController,
-    viewModel: RatesViewModel = hiltViewModel(),
-    iconItem: ImageVector
+    viewModel: RatesViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
 
@@ -75,8 +74,7 @@ fun DefaultList(
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.rates) { rate ->
                 ListItem(
-                    rate = rate,
-                    icon = iconItem
+                    rate = rate
                 )
             }
         }

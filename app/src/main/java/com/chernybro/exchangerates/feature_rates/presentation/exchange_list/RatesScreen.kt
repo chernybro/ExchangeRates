@@ -13,5 +13,6 @@ fun RateListScreen(
     navController: NavController,
     viewModel: RatesViewModel = hiltViewModel()
 ) {
-    DefaultList(navController = navController, viewModel = viewModel, iconItem = Icons.Outlined.Home)
+    // TODO: add action on icon click,
+    DefaultList(navController = navController, viewModel = viewModel)
 }
