@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavouriteRatesRepository {
 
-    fun getRates(): Flow<Resource<List<Rate>>>
+    fun getRates(base: String): Flow<Resource<List<Rate>>>
 
-    fun insertRate(rate: Rate): Flow<SimpleResource>
+    fun insertRate(base: String, rate: Rate): Flow<Resource<List<Rate>>>
 
-    fun deleteRate(rate: Rate): Flow<SimpleResource>
+    fun deleteRate(rate: Rate): Flow<Resource<List<Rate>>>
 }

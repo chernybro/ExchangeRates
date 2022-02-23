@@ -1,4 +1,4 @@
-package com.chernybro.exchangerates.feature_rates.presentation.common
+package com.chernybro.exchangerates.feature_rates.presentation.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,21 +16,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.chernybro.exchangerates.feature_rates.domain.models.Rate
 import com.chernybro.exchangerates.R
+import com.chernybro.exchangerates.feature_rates.domain.models.Rate
+import com.chernybro.exchangerates.feature_rates.presentation.common.BaseViewModel
+import com.chernybro.exchangerates.feature_rates.presentation.common.RatesEvent
 
 @Composable
 fun ListItem(
-    rate: Rate
+    rate: Rate,
+    viewModel: BaseViewModel
 ) {
     val icon = if (rate.isFavourite){
-        Icons.Outlined.Star
-    } else {
         Icons.Filled.Star
+    } else {
+        ImageVector.vectorResource(id = R.drawable.ic_baseline_star_outline_24)
     }
     Row(
         modifier = Modifier
@@ -63,7 +66,13 @@ fun ListItem(
                 modifier = Modifier
                     .padding(end = 8.dp)
             )
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                if (rate.isFavourite) {
+                    viewModel.onEvent(RatesEvent.DeleteRate(rate = rate))
+                } else {
+                    viewModel.onEvent(RatesEvent.AddRate(base = rate.base, rate = rate))
+                }
+            }) {
                 Icon(
                     painter = rememberVectorPainter(image = icon),
                     contentDescription = stringResource(id = R.string.add_to_favourites),
@@ -72,10 +81,4 @@ fun ListItem(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun test() {
-    ListItem(Rate("EUR", "Rub", 3.42))
 }

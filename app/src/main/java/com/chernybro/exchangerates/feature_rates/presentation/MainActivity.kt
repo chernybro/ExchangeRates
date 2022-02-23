@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -15,10 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.chernybro.exchangerates.feature_rates.presentation.exchange_favourites.FavouritesListScreen
-import com.chernybro.exchangerates.feature_rates.presentation.exchange_list.RateListScreen
-import com.chernybro.exchangerates.feature_rates.presentation.util.IconScreens
-import com.chernybro.exchangerates.feature_rates.presentation.util.Screen
+import com.chernybro.exchangerates.feature_rates.presentation.favourites.FavouritesListScreen
+import com.chernybro.exchangerates.feature_rates.presentation.rates.RateListScreen
+import com.chernybro.exchangerates.feature_rates.presentation.util.MainScreens
 import com.chernybro.exchangerates.ui.theme.ExchangeRatesTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,8 +43,8 @@ fun BottomNavigationBar(
     navController: NavController
 ) {
     val items = listOf(
-        IconScreens.RateListScreen,
-        IconScreens.FavouritesScreen
+        MainScreens.RateListScreen,
+        MainScreens.FavouritesScreen
     )
 
     BottomNavigation(
@@ -82,17 +80,17 @@ fun BottomNavigationBar(
 fun AppNavigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.RateListScreen.route
+        startDestination = MainScreens.RateListScreen.route
     ) {
         composable(
-            route = IconScreens.RateListScreen.route
+            route = MainScreens.RateListScreen.route
         ) {
-            RateListScreen(navController = navController)
+            RateListScreen()
         }
          composable(
-             route = IconScreens.FavouritesScreen.route
+             route = MainScreens.FavouritesScreen.route
          ) {
-             FavouritesListScreen(navController = navController)
+             FavouritesListScreen()
          }
     }
 }

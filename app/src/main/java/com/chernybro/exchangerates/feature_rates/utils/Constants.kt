@@ -1,5 +1,8 @@
 package com.chernybro.exchangerates.feature_rates.utils
 
+import com.chernybro.exchangerates.feature_rates.domain.utils.OrderType
+import com.chernybro.exchangerates.feature_rates.domain.utils.RateOrder
+
 object Constants {
     const val BASE_URL = "https://api.exchangerate.host/"
 

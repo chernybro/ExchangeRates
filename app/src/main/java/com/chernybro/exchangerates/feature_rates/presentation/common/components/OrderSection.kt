@@ -1,4 +1,4 @@
-package com.chernybro.exchangerates.feature_rates.presentation.common
+package com.chernybro.exchangerates.feature_rates.presentation.common.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import com.chernybro.exchangerates.feature_rates.domain.utils.OrderType
 import com.chernybro.exchangerates.feature_rates.domain.utils.RateOrder
 import com.chernybro.exchangerates.R
+import com.chernybro.exchangerates.feature_rates.presentation.common.DefaultRadioButton
 
 @Composable
 fun OrderSection(

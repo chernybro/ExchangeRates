@@ -6,11 +6,10 @@ import com.chernybro.exchangerates.feature_rates.domain.models.Rate
 
 @Entity
 data class FavouriteRateEntity(
-    val code: String,
+    @PrimaryKey val code: String,
     val base: String,
     val cost: Double,
     val isFavourite: Boolean = false,
-    @PrimaryKey val id: Int? = null
 ) {
     fun toRate(): Rate {
         return Rate(
