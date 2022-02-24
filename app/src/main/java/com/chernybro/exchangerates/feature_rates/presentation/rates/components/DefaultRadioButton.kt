@@ -1,4 +1,4 @@
-package com.chernybro.exchangerates.feature_rates.presentation.common
+package com.chernybro.exchangerates.feature_rates.presentation.rates.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.chernybro.exchangerates.ui.theme.SpaceMedium
 
 @Composable
 fun DefaultRadioButton(
@@ -31,7 +32,7 @@ fun DefaultRadioButton(
                 unselectedColor = MaterialTheme.colors.onBackground
             )
         )
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(SpaceMedium))
         Text(text = text, style = MaterialTheme.typography.body1)
     }
 }

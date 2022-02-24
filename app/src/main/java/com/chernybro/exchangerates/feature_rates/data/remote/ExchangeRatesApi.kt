@@ -12,7 +12,7 @@ interface ExchangeRatesApi {
     @GET("/latest")
     suspend fun getLatestRates(
         @Query("base") base: String,
-        @Query("symbols") symbols: List<String>? = null
+        @Query("symbols") symbols: String? = null
     ): LatestRatesDTO
 
     @GET("/symbols")

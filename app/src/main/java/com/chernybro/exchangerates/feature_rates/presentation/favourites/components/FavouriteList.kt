@@ -1,6 +1,6 @@
 package com.chernybro.exchangerates.feature_rates.presentation.favourites.components
 
-import androidx.compose.animation.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,30 +12,35 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chernybro.exchangerates.R
-import com.chernybro.exchangerates.feature_rates.presentation.common.components.OrderSection
-import com.chernybro.exchangerates.feature_rates.presentation.common.RatesEvent
-import com.chernybro.exchangerates.feature_rates.presentation.favourites.FavouritesViewModel
+import com.chernybro.exchangerates.feature_rates.domain.models.Rate
+import com.chernybro.exchangerates.feature_rates.presentation.BaseViewModel
+import com.chernybro.exchangerates.feature_rates.presentation.common.Event
+import com.chernybro.exchangerates.ui.theme.SpaceLarge
+import com.chernybro.exchangerates.ui.theme.SpaceMedium
+import com.chernybro.exchangerates.ui.theme.SpaceSmall
 
 
 @Composable
 fun FavouriteList(
-    viewModel: FavouritesViewModel = hiltViewModel()
+    viewModel: BaseViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value
 
+    viewModel.onEvent(Event.SelectFavourites(state.selectedSymbol))
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(vertical = SpaceMedium, horizontal = SpaceLarge)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -47,39 +52,12 @@ fun FavouriteList(
                 style = MaterialTheme.typography.h5
             )
             DropDownList(viewModel)
-            IconButton(
-                onClick = {
-                    viewModel.onEvent(RatesEvent.ToggleOrderSection)
-                }
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_baseline_sort_24),
-                    contentDescription = stringResource(id = R.string.sort),
-                    tint = Color.White
-                )
-            }
         }
-        AnimatedVisibility(
-            visible = state.isOrderSectionVisible,
-            enter = fadeIn() + slideInVertically(),
-            exit = fadeOut() + slideOutVertically()
-        ) {
-            OrderSection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                rateOrder = state.rateOrder,
-                onOrderChange = {
-                    viewModel.onEvent(RatesEvent.Order(it))
-                }
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(SpaceLarge))
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(state.favourites) { rate ->
-                com.chernybro.exchangerates.feature_rates.presentation.common.components.ListItem(
-                    rate = rate,
-                    viewModel = viewModel
+                FavouriteItem(
+                    rate = rate
                 )
             }
         }
@@ -100,7 +78,7 @@ fun FavouriteList(
 }
 
 @Composable
-fun DropDownList(viewModel: FavouritesViewModel) {
+fun DropDownList(viewModel: BaseViewModel) {
 
     val symbols = viewModel.state.value.symbols
     val selectedSymbol = viewModel.state.value.selectedSymbol
@@ -119,7 +97,7 @@ fun DropDownList(viewModel: FavouritesViewModel) {
             Text(
                 text = selectedSymbol.code,
                 fontSize = 18.sp,
-                modifier = Modifier.padding(end = 4.dp)
+                modifier = Modifier.padding(end = SpaceSmall)
             )
             Icon(
                 imageVector = Icons.Filled.ArrowDropDown,
@@ -135,7 +113,7 @@ fun DropDownList(viewModel: FavouritesViewModel) {
                     DropdownMenuItem(
                         onClick = {
                             expanded = false
-                            viewModel.onEvent(RatesEvent.Select(symbol))
+                            viewModel.onEvent(Event.SelectFavourites(symbol))
                         }) {
                         Text(text = symbol.code)
                     }
@@ -144,4 +122,43 @@ fun DropDownList(viewModel: FavouritesViewModel) {
         }
     }
 
+}
+
+@Composable
+fun FavouriteItem(
+    rate: Rate
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(72.dp)
+            .padding(vertical = SpaceSmall, horizontal = SpaceMedium)
+            .background(
+                color = MaterialTheme.colors.surface,
+                shape = MaterialTheme.shapes.medium
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = rate.code,
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier
+                .padding(start = SpaceMedium)
+        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = rate.cost.toString(),
+                color = Color.Yellow,
+                fontStyle = FontStyle.Italic,
+                textAlign = TextAlign.End,
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier
+                    .padding(end = SpaceMedium)
+            )
+        }
+    }
 }

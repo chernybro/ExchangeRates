@@ -8,7 +8,8 @@ import com.chernybro.exchangerates.feature_rates.domain.models.Rate
 
 @Database(
     entities = [FavouriteRateEntity::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class ExchangeRatesDatabase: RoomDatabase() {
 

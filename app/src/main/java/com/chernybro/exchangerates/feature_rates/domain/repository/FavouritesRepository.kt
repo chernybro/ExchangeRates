@@ -5,11 +5,11 @@ import com.chernybro.exchangerates.feature_rates.utils.Resource
 import com.chernybro.exchangerates.feature_rates.utils.SimpleResource
 import kotlinx.coroutines.flow.Flow
 
-interface FavouriteRatesRepository {
+interface FavouritesRepository {
 
     fun getRates(base: String): Flow<Resource<List<Rate>>>
 
-    fun insertRate(base: String, rate: Rate): Flow<Resource<List<Rate>>>
+    suspend fun insertRate(base: String, rate: Rate): SimpleResource
 
-    fun deleteRate(rate: Rate): Flow<Resource<List<Rate>>>
+    suspend fun deleteRate(rate: Rate): SimpleResource
 }

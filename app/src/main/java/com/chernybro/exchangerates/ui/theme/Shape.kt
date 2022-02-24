@@ -1,4 +1,4 @@
-package com.chernybro.exchangerates.presentation.ui.theme
+package com.chernybro.exchangerates.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

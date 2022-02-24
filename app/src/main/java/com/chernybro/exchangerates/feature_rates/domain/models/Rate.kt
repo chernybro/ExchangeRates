@@ -7,7 +7,7 @@ data class Rate(
     val base : String,
     val code: String,
     val cost : Double,
-    val isFavourite: Boolean = false
+    var isFavourite: Boolean = false
 ) {
     override fun equals(other: Any?): Boolean = (other is Rate) && (code == other.code)
 

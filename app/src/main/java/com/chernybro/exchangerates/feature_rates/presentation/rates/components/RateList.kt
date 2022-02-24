@@ -1,6 +1,7 @@
 package com.chernybro.exchangerates.feature_rates.presentation.rates.components
 
 import androidx.compose.animation.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,35 +9,43 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chernybro.exchangerates.R
+import com.chernybro.exchangerates.feature_rates.domain.models.Rate
+import com.chernybro.exchangerates.feature_rates.presentation.BaseViewModel
+import com.chernybro.exchangerates.feature_rates.presentation.common.Event
 import com.chernybro.exchangerates.feature_rates.presentation.common.components.OrderSection
-import com.chernybro.exchangerates.feature_rates.presentation.common.RatesEvent
-import com.chernybro.exchangerates.feature_rates.presentation.rates.RatesViewModel
+import com.chernybro.exchangerates.ui.theme.SpaceLarge
+import com.chernybro.exchangerates.ui.theme.SpaceMedium
+import com.chernybro.exchangerates.ui.theme.SpaceSmall
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 
 @Composable
 fun RateList(
-    viewModel: RatesViewModel = hiltViewModel()
+    viewModel: BaseViewModel = hiltViewModel()
 ) {
-
     val state = viewModel.state.value
 
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(vertical = SpaceMedium, horizontal = SpaceLarge)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -50,7 +59,7 @@ fun RateList(
             DropDownList(viewModel)
             IconButton(
                 onClick = {
-                    viewModel.onEvent(RatesEvent.ToggleOrderSection)
+                    viewModel.onEvent(Event.ToggleOrderSection)
                 }
             ) {
                 Icon(
@@ -68,43 +77,55 @@ fun RateList(
             OrderSection(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = SpaceMedium),
                 rateOrder = state.rateOrder,
                 onOrderChange = {
-                    viewModel.onEvent(RatesEvent.Order(it))
+                    viewModel.onEvent(Event.Order(it))
                 }
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.rates) { rate ->
-                com.chernybro.exchangerates.feature_rates.presentation.common.components.ListItem(
-                    rate = rate,
-                    viewModel = viewModel
+        Spacer(modifier = Modifier.height(SpaceLarge))
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing = state.isRefresging),
+            onRefresh = { viewModel.onEvent(Event.SelectRates(state.selectedSymbol)) }
+        ) {
+            LazyColumn(modifier = Modifier.fillMaxSize()) {
+                items(state.rates) { rate ->
+                    RatesItem(
+                        rate = rate,
+                        onRateChange =  {
+                            if (!rate.isFavourite) {
+                                viewModel.onEvent(Event.AddRate(rate.base, rate))
+                            } else {
+                                viewModel.onEvent(Event.DeleteRate(rate))
+                            }
+                        }
+                    )
+                }
+            }
+            if (state.error.isNotBlank()) {
+                Text(
+                    text = state.error,
+                    color = MaterialTheme.colors.error,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
                 )
             }
+            if (state.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+            }
         }
-        if (state.error.isNotBlank()) {
-            Text(
-                text = state.error,
-                color = MaterialTheme.colors.error,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-            )
-        }
-        if (state.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-        }
+
     }
 }
 
 @Composable
-fun DropDownList(viewModel: RatesViewModel) {
+fun DropDownList(viewModel: BaseViewModel) {
 
     val symbols = viewModel.state.value.symbols
-    val selectedSymbol =  viewModel.state.value.selectedSymbol
+    val selectedSymbol = viewModel.state.value.selectedSymbol
     var expanded by remember { mutableStateOf(false) }
 
     Box(contentAlignment = Alignment.Center) {
@@ -120,7 +141,7 @@ fun DropDownList(viewModel: RatesViewModel) {
             Text(
                 text = selectedSymbol.code,
                 fontSize = 18.sp,
-                modifier = Modifier.padding(end = 4.dp)
+                modifier = Modifier.padding(SpaceSmall)
             )
             Icon(
                 imageVector = Icons.Filled.ArrowDropDown,
@@ -136,7 +157,7 @@ fun DropDownList(viewModel: RatesViewModel) {
                     DropdownMenuItem(
                         onClick = {
                             expanded = false
-                            viewModel.onEvent(RatesEvent.Select(symbol))
+                            viewModel.onEvent(Event.SelectRates(symbol))
                         }) {
                         Text(text = symbol.code)
                     }
@@ -144,5 +165,59 @@ fun DropDownList(viewModel: RatesViewModel) {
             }
         }
     }
+}
 
+
+@Composable
+fun RatesItem(
+    rate: Rate,
+    onRateChange: () -> Unit
+) {
+    val icon = if (rate.isFavourite) {
+        Icons.Filled.Star
+    } else {
+        ImageVector.vectorResource(id = R.drawable.ic_baseline_star_outline_24)
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(72.dp)
+            .padding(vertical = SpaceSmall, horizontal = SpaceMedium)
+            .background(
+                color = MaterialTheme.colors.surface,
+                shape = MaterialTheme.shapes.medium
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = rate.code,
+            style = MaterialTheme.typography.body1,
+            modifier = Modifier
+                .padding(start = SpaceMedium)
+        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = rate.cost.toString(),
+                color = Color.Yellow,
+                fontStyle = FontStyle.Italic,
+                textAlign = TextAlign.End,
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier
+                    .padding(end = SpaceMedium)
+            )
+            IconButton(onClick = {
+                onRateChange.invoke()
+            }) {
+                Icon(
+                    painter = rememberVectorPainter(image = icon),
+                    contentDescription = stringResource(id = R.string.add_to_favourites),
+                    tint = Color.Green
+                )
+            }
+        }
+    }
 }

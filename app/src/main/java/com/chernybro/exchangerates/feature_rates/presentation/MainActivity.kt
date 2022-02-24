@@ -3,9 +3,12 @@ package com.chernybro.exchangerates.feature_rates.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -30,8 +33,10 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     Scaffold(
                         bottomBar = { BottomNavigationBar(navController) }
-                    ) {
-                        AppNavigation(navController = navController)
+                    ) { innerPadding ->
+                        Box(modifier = Modifier.padding(innerPadding)) {
+                            AppNavigation(navController = navController)
+                        }
                     }
                 }
             }

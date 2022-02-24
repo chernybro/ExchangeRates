@@ -8,7 +8,8 @@ import androidx.compose.ui.unit.dp
 import com.chernybro.exchangerates.feature_rates.domain.utils.OrderType
 import com.chernybro.exchangerates.feature_rates.domain.utils.RateOrder
 import com.chernybro.exchangerates.R
-import com.chernybro.exchangerates.feature_rates.presentation.common.DefaultRadioButton
+import com.chernybro.exchangerates.feature_rates.presentation.rates.components.DefaultRadioButton
+import com.chernybro.exchangerates.ui.theme.SpaceMedium
 
 @Composable
 fun OrderSection(
@@ -27,7 +28,7 @@ fun OrderSection(
                 selected = rateOrder is RateOrder.Code,
                 onSelect = { onOrderChange(RateOrder.Code(rateOrder.orderType)) }
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(SpaceMedium))
             DefaultRadioButton(
                 text = stringResource(id = R.string.sort_cost),
                 selected = rateOrder is RateOrder.Cost,
@@ -44,7 +45,7 @@ fun OrderSection(
                     onOrderChange(rateOrder.copy(OrderType.Ascending))
                 }
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(SpaceMedium))
             DefaultRadioButton(
                 text = "Descending",
                 selected = rateOrder.orderType is OrderType.Descending,

@@ -1,13 +1,18 @@
 package com.chernybro.exchangerates.di
 
+import android.app.Activity
 import android.app.Application
+import android.content.Context
+import androidx.core.app.ComponentActivity
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.chernybro.exchangerates.feature_rates.data.database.ExchangeRatesDatabase
 import com.chernybro.exchangerates.feature_rates.data.remote.ExchangeRatesApi
-import com.chernybro.exchangerates.feature_rates.data.repository.FavouriteRatesRepositoryImpl
+import com.chernybro.exchangerates.feature_rates.data.repository.FavouritesRepositoryImpl
 import com.chernybro.exchangerates.feature_rates.data.repository.RateRepositoryImpl
 import com.chernybro.exchangerates.feature_rates.data.repository.SymbolRepositoryImpl
-import com.chernybro.exchangerates.feature_rates.domain.repository.FavouriteRatesRepository
+import com.chernybro.exchangerates.feature_rates.domain.repository.FavouritesRepository
 import com.chernybro.exchangerates.feature_rates.domain.repository.RateRepository
 import com.chernybro.exchangerates.feature_rates.domain.repository.SymbolRepository
 import com.chernybro.exchangerates.feature_rates.domain.use_case.favourites.AddFavourite
@@ -16,10 +21,10 @@ import com.chernybro.exchangerates.feature_rates.domain.use_case.favourites.GetF
 import com.chernybro.exchangerates.feature_rates.domain.use_case.symbols.GetSymbols
 import com.chernybro.exchangerates.feature_rates.domain.use_case.rates.GetRates
 import com.chernybro.exchangerates.feature_rates.utils.Constants
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -82,16 +87,17 @@ object AppModule {
     fun provideWordInfoRepository(
         db: ExchangeRatesDatabase,
         api: ExchangeRatesApi
-    ): FavouriteRatesRepository {
-        return FavouriteRatesRepositoryImpl(db.dao, api)
+    ): FavouritesRepository {
+        return FavouritesRepositoryImpl(db.dao, api)
     }
 
     @Provides
     @Singleton
     fun provideRatesRepository(
+        db: ExchangeRatesDatabase,
         api: ExchangeRatesApi
     ): RateRepository {
-        return RateRepositoryImpl(api)
+        return RateRepositoryImpl(api, db.dao)
     }
 
     @Provides
@@ -114,19 +120,19 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideGetFavouritesUseCase(repository: FavouriteRatesRepository): GetFavourites {
+    fun provideGetFavouritesUseCase(repository: FavouritesRepository): GetFavourites {
         return GetFavourites(repository)
     }
 
     @Provides
     @Singleton
-    fun provideAddRateUseCase(repository: FavouriteRatesRepository): AddFavourite {
+    fun provideAddRateUseCase(repository: FavouritesRepository): AddFavourite {
         return AddFavourite(repository)
     }
 
     @Provides
     @Singleton
-    fun provideDeleteRateUseCase(repository: FavouriteRatesRepository): DeleteFavourite {
+    fun provideDeleteRateUseCase(repository: FavouritesRepository): DeleteFavourite {
         return DeleteFavourite(repository)
     }
 
@@ -135,5 +141,4 @@ object AppModule {
     fun provideSymbolsInfoUseCase(repository: SymbolRepository): GetSymbols {
         return GetSymbols(repository)
     }
-
 }
