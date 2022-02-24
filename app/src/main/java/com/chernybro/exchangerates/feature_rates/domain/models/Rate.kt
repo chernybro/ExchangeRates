@@ -12,7 +12,7 @@ data class Rate(
     override fun equals(other: Any?): Boolean = (other is Rate) && (code == other.code)
 
     override fun hashCode(): Int {
-        val prime = 31;
+        val prime = 31
         return prime +
                 prime * base.hashCode() +
                 prime * code.hashCode() +

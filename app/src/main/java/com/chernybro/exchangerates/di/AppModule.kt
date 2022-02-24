@@ -1,11 +1,6 @@
 package com.chernybro.exchangerates.di
 
-import android.app.Activity
 import android.app.Application
-import android.content.Context
-import androidx.core.app.ComponentActivity
-import androidx.lifecycle.LifecycleCoroutineScope
-import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.chernybro.exchangerates.feature_rates.data.database.ExchangeRatesDatabase
 import com.chernybro.exchangerates.feature_rates.data.remote.ExchangeRatesApi
@@ -18,13 +13,12 @@ import com.chernybro.exchangerates.feature_rates.domain.repository.SymbolReposit
 import com.chernybro.exchangerates.feature_rates.domain.use_case.favourites.AddFavourite
 import com.chernybro.exchangerates.feature_rates.domain.use_case.favourites.DeleteFavourite
 import com.chernybro.exchangerates.feature_rates.domain.use_case.favourites.GetFavourites
-import com.chernybro.exchangerates.feature_rates.domain.use_case.symbols.GetSymbols
 import com.chernybro.exchangerates.feature_rates.domain.use_case.rates.GetRates
+import com.chernybro.exchangerates.feature_rates.domain.use_case.symbols.GetSymbols
 import com.chernybro.exchangerates.feature_rates.utils.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -45,7 +39,7 @@ object AppModule {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                val url = chain.request().url.newBuilder().addQueryParameter("source", "ecb").build()
+                val url = chain.request().url.newBuilder().addQueryParameter("source", Constants.RATES_SOURCE).build()
                 request.url(url)
                 chain.proceed(request.build())
             }

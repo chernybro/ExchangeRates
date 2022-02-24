@@ -86,7 +86,7 @@ fun RateList(
         }
         Spacer(modifier = Modifier.height(SpaceLarge))
         SwipeRefresh(
-            state = rememberSwipeRefreshState(isRefreshing = state.isRefresging),
+            state = rememberSwipeRefreshState(isRefreshing = state.isRefreshing),
             onRefresh = { viewModel.onEvent(Event.SelectRates(state.selectedSymbol)) }
         ) {
             LazyColumn(modifier = Modifier.fillMaxSize()) {

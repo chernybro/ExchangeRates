@@ -1,5 +1,6 @@
 package com.chernybro.exchangerates.feature_rates.data.repository
 
+import com.chernybro.exchangerates.R
 import com.chernybro.exchangerates.feature_rates.data.database.dao.FavouriteRateDao
 import com.chernybro.exchangerates.feature_rates.data.remote.ExchangeRatesApi
 import com.chernybro.exchangerates.feature_rates.data.remote.dto.toRates
@@ -8,6 +9,7 @@ import com.chernybro.exchangerates.feature_rates.domain.models.toFavouriteRate
 import com.chernybro.exchangerates.feature_rates.domain.repository.FavouritesRepository
 import com.chernybro.exchangerates.feature_rates.utils.Resource
 import com.chernybro.exchangerates.feature_rates.utils.SimpleResource
+import com.chernybro.exchangerates.feature_rates.utils.UiText
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -35,15 +37,13 @@ class FavouritesRepositoryImpl @Inject constructor(
             } catch (e: HttpException) {
                 emit(
                     Resource.Error<List<Rate>>(
-                        message = "Oops, something went wrong!",
-                        data = favourites
+                        UiText.unknownError()
                     )
                 )
             } catch (e: IOException) {
                 emit(
                     Resource.Error<List<Rate>>(
-                        message = "Couldn't reach server, check your internet connection.",
-                        data = favourites
+                        UiText.StringResource(R.string.error_connection)
                     )
                 )
             }
@@ -69,11 +69,11 @@ class FavouritesRepositoryImpl @Inject constructor(
                return Resource.Success(Unit)
            } catch (e: HttpException) {
                return Resource.Error(
-                   message = "Oops, something went wrong!"
+                   UiText.unknownError()
                )
            } catch (e: IOException) {
                return Resource.Error(
-                   message = "Couldn't reach server, check your internet connection."
+                   UiText.StringResource(R.string.error_connection)
                )
            }
        }

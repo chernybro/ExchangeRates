@@ -4,10 +4,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import com.chernybro.exchangerates.R
 import com.chernybro.exchangerates.feature_rates.domain.utils.OrderType
 import com.chernybro.exchangerates.feature_rates.domain.utils.RateOrder
-import com.chernybro.exchangerates.R
 import com.chernybro.exchangerates.feature_rates.presentation.rates.components.DefaultRadioButton
 import com.chernybro.exchangerates.ui.theme.SpaceMedium
 

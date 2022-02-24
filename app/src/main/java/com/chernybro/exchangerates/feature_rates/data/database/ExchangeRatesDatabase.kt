@@ -4,7 +4,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.chernybro.exchangerates.feature_rates.data.database.dao.FavouriteRateDao
 import com.chernybro.exchangerates.feature_rates.data.database.entities.FavouriteRateEntity
-import com.chernybro.exchangerates.feature_rates.domain.models.Rate
 
 @Database(
     entities = [FavouriteRateEntity::class],

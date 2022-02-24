@@ -50,10 +50,7 @@ class BaseViewModel @Inject constructor(
                     )
                 }
                 is Resource.Error -> {
-                    _state.value = state.value.copy(
-                        error = result.message ?: "An unexpected error occured",
-                        isLoading = false
-                    )
+                   // _eventFlow.emit(UiEvent.ShowSnackbar(errorUiText)) // TODO: Забирать в compose
                 }
                 is Resource.Loading -> {
                     _state.value = state.value.copy(isLoading = true)
@@ -75,7 +72,7 @@ class BaseViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.value = state.value.copy(
-                        error = result.message ?: "An unexpected error occured",
+                        // _eventFlow.emit(UiEvent.ShowSnackbar(errorUiText)) // TODO: Забирать в compose
                         isLoading = false
                     )
                 }
@@ -98,7 +95,7 @@ class BaseViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.value = state.value.copy(
-                        error = result.message ?: "An unexpected error occured",
+                        // _eventFlow.emit(UiEvent.ShowSnackbar(errorUiText)) // TODO: Забирать в compose
                         isLoading = false
                     )
                 }

@@ -15,5 +15,5 @@ data class BaseState(
     val rateOrder: RateOrder = RateOrder.Code(OrderType.Ascending),
     val isOrderSectionVisible: Boolean = false,
     val selectedSymbol: Symbol = Symbol(code = Constants.BASE_RATE),
-    val isRefresging: Boolean = false
+    val isRefreshing: Boolean = false
 )
